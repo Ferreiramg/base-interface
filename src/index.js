@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import ContainerBase from "components/Container";
+import { Provider } from 'react-redux';
+//import { BrowserRouter } from 'react-router-dom';
+import store from "./store";
+import CssBaseline from '@material-ui/core/CssBaseline'
+import CustomThemeProvider from "components/CustomThemeProvider";
+
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <CustomThemeProvider>
+      <CssBaseline />
+      <ContainerBase />
+    </CustomThemeProvider>
+  </Provider>,
   document.getElementById('root')
 );
 
