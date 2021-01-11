@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Navbar from "./Navbar";
-import { Route, MemoryRouter } from 'react-router';
+import { Route } from 'react-router';
 import { Switch, BrowserRouter, Link as RouterLink } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 
@@ -13,7 +13,6 @@ import Link from '@material-ui/core/Link';
 import { breadcrumbNameMap } from "screens/routes";
 import PrivateRoute from "../PrivateRoute";
 import { privateRoutes } from "screens/routes";
-import Notification from 'components/Snack/Notification'
 
 const LinkRouter = (props) => <Link {...props} component={RouterLink} />;
 const Navcrumbs = () => {
@@ -48,11 +47,8 @@ const Navcrumbs = () => {
 };
 
 const ContainerBase = () => {
-    const classes = useStyles();
     return (
         <>
-          
-            <Notification />
             <BrowserRouter>
                 <Navbar></Navbar>
                 <Container maxWidth="lg">

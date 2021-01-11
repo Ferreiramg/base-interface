@@ -3,18 +3,39 @@ const initial_state = {
     error: null,
     isLoading: false,
     data: [],
-    anexo: []
+    menuItens: [],
+    anexo: {}
 }
 
 export function conciliacaoReducer(state = initial_state, action) {
 
-    switch (action.Type) {
+    switch (action.type) {
+        case Type.LIST_CONCILIACAO:
         case Type.GET_CONCILIACAO:
             return {
                 ...state,
                 isLoading: true
             }
-        case Type.GET_CONCILIACAO_IMPORT:
+        case Type.GET_CONCILIACAO_SUCCESS:
+            return {
+                ...state,
+                data: action.payload,
+                isLoading: false
+            }
+        case Type.RESET_CONCILIACAO:
+            return {
+                ...state,
+                data: [],
+                anexo: {},
+                isLoading: false
+            }
+        case Type.LIST_CONCILIACAO_SUCCESS:
+            return {
+                ...state,
+                menuItens: action.payload,
+                isLoading: false
+            }
+        case Type.IMPORT_CONCILIACAO:
             return {
                 ...state,
                 error: null,
@@ -23,21 +44,15 @@ export function conciliacaoReducer(state = initial_state, action) {
         case Type.IMPORT_CONCILIACAO_SUCCESS:
             return {
                 ...state,
-                isLoading: true,
+                isLoading: false,
                 anexo: action.payload
             }
-        case Type.GET_CONCILIACAO_SUCCESS:
-            return {
-                isLoading: false,
-                error: null,
-                data: action.payload
-            }
-        case Type.GET_CONCILIACAO_FAILURE:
+        case Type.REQUEST_CONCILIACAO_FAILURE:
             return {
                 ...initial_state,
                 error: action.error
             }
         default:
-            return initial_state;
+            return state;
     }
 };

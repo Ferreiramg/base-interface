@@ -6,7 +6,7 @@ import Sagas from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const logger = ({getState}) => next => action => {
+const logger = ({ getState }) => next => action => {
     console.log(getState());
     return next(action)
 };

@@ -1,12 +1,9 @@
 import React from "react";
 import { Link as RouterLink } from 'react-router-dom';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Collapse from '@material-ui/core/Collapse';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -35,11 +32,14 @@ function ListItemLink(props) {
 }
 
 const Navmenu = () => {
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
 
-    const handleClick = () => {
-        setOpen((prevOpen) => !prevOpen);
+    const classes = useStyles();
+    const [open, setOpen] = React.useState({
+        0: false, 1: false, 2: false
+    });
+
+    const handleClick = (key = 0) => {
+        setOpen((prevOpen) => ({ ...open, [key]: !prevOpen[key] }));
     };
 
     return (
@@ -48,18 +48,37 @@ const Navmenu = () => {
                 <List>
                     <ListItem component={RouterLink} to={'/'} button>
                         <ListItemIcon>
-                            <HomeIcon color="primary" />
+                            <HomeIcon color="secondary" />
                         </ListItemIcon>
                         <ListItemText primary="Dashboard" />
                     </ListItem>
-                    <ListItemLink to="/fechamento" open={open} onClick={handleClick} />
-                    <Collapse component="li" in={open} timeout="auto" unmountOnExit>
+                    <Divider />
+                    <ListItemLink to="/fechamento" open={open[0]} onClick={e => handleClick(0)} />
+                    <Collapse component="li" in={open[0]} timeout="auto" unmountOnExit>
                         <List disablePadding>
                             <ListItemLink to="/fechamento/important" className={classes.nested} />
                         </List>
                     </Collapse>
                     <ListItemLink to="/conciliacao" />
-                    <ListItemLink to="/spam" />
+                    <Divider />
+                    <ListItemLink to="/faturamento" open={open[1]} onClick={e => handleClick(1)} />
+                    <Collapse component="li" in={open[1]} timeout="auto" unmountOnExit>
+                        <List disablePadding>
+                            <ListItemLink to="/faturamento/checkout" className={classes.nested} />
+                        </List>
+                        <List disablePadding>
+                            <ListItemLink to="/faturamento/listar" className={classes.nested} />
+                        </List>
+                    </Collapse>
+                    <Divider />
+                    <ListItemLink to="/reports" open={open[2]} onClick={e => handleClick(2)} />
+                    <Collapse component="li" in={open[2]} timeout="auto" unmountOnExit>
+                        <List disablePadding>
+                            <ListItemLink to="/reports/timeseries" className={classes.nested} />
+                        </List>
+                    </Collapse>
+                    <Divider />
+                    <ListItemLink to="/ckeditor" />
                 </List>
             </nav>
         </div>

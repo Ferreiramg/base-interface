@@ -4,16 +4,16 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { DataGrid } from '@material-ui/data-grid';
-import { useDispatch, useSelector } from "react-redux";
-const Home = ({ title }) => {
-    const dispatch = useDispatch();
+
+const Home = ({ title, actions }) => {
+    
     return (
         <>
             <Toolbar>
                 <Typography variant="h6" style={{ flex: '1 1 100%' }} component="div">
                     {title}
                 </Typography>
-                <Button onClick={e => dispatch({ type: 'notification', msg: "Error teste", severity: 'error' })} variant="contained">Default</Button>
+                <Button onClick={e => actions.addToast({ msg: "testando o toast" })} variant="contained">Default</Button>
             </Toolbar>
             <div style={{ display: 'flex', height: '84%' }}>
                 <div style={{ flexGrow: 1 }}>
