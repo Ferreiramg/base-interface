@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -47,11 +48,13 @@ const Navcrumbs = () => {
 };
 
 const ContainerBase = () => {
+    const error = useSelector(state => state.errorReducer.error);
     return (
         <>
             <BrowserRouter>
                 <Navbar></Navbar>
                 <Container maxWidth="lg">
+                   
                     <Paper style={{ padding: '10px', marginTop: '70px', height: '88vh' }} >
                         <Navcrumbs />
                         <Divider />

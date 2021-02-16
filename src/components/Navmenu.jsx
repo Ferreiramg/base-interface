@@ -69,6 +69,9 @@ const Navmenu = () => {
                         <List disablePadding>
                             <ListItemLink to="/faturamento/listar" className={classes.nested} />
                         </List>
+                        <List disablePadding>
+                            <ListItemLink to="/faturamento/fob" className={classes.nested} />
+                        </List>
                     </Collapse>
                     <Divider />
                     <ListItemLink to="/reports" open={open[2]} onClick={e => handleClick(2)} />
@@ -79,6 +82,7 @@ const Navmenu = () => {
                     </Collapse>
                     <Divider />
                     <ListItemLink to="/ckeditor" />
+                    <ListItemLink to="/firestore" />
                 </List>
             </nav>
         </div>

@@ -9,3 +9,5 @@ export const FATURAMENTO_LIST = '/faturamento/listar';
 export const REPORTS = '/reports';
 export const FATURAMENTO_PLOT_TIMESERIES = '/reports/timeseries';
 export const EDITOR_TEXT = '/ckeditor';
+export const FATURAMENTO_FOB = '/faturamento/fob';
+export const FIRESTORE_UPLOAD = '/firestore';

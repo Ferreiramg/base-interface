@@ -15,4 +15,8 @@ export function removeToast(id) {
   };
 }
 
-export default { addToast, removeToast };
+export function setError(error) {
+  return addToast({ msg: error, severity: 'error' })
+}
+
+export default { addToast, removeToast, setError };

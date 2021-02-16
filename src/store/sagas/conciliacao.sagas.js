@@ -4,6 +4,11 @@ import api from 'utils/http.intercept';
 
 import * as Type from 'utils/constants/actionTypes';
 
+function* errorDispatch(e) {
+    const error = !e ? { statusText: "Houve uma falha na requisição" } : e;
+    yield put({ type: Type.REQUEST_CONCILIACAO_FAILURE, error });
+}
+
 function* importConc({ form }) {
 
     try {
@@ -12,8 +17,8 @@ function* importConc({ form }) {
 
         yield put({ type: Type.IMPORT_CONCILIACAO_SUCCESS, payload: URL.createObjectURL(responseBlob) });
 
-    } catch (error) {
-        yield put({ type: Type.REQUEST_CONCILIACAO_FAILURE, error })
+    } catch (e) {
+        yield call(() => errorDispatch(e));
     }
 };
 function* listConc() {
@@ -22,8 +27,8 @@ function* listConc() {
         let { data } = yield call(async () => await api.get('/conciliacao/menu'));
         yield put({ type: Type.LIST_CONCILIACAO_SUCCESS, payload: data });
 
-    } catch (error) {
-        yield put({ type: Type.REQUEST_CONCILIACAO_FAILURE, error });
+    } catch (e) {
+        yield call(() => errorDispatch(e));
     }
 };
 function* getConc({ payload }) {
@@ -31,8 +36,8 @@ function* getConc({ payload }) {
         let { data } = yield call(async () => await api.get(`/conciliacao/view/${payload}`));
         yield put({ type: Type.GET_CONCILIACAO_SUCCESS, payload: data });
 
-    } catch (error) {
-        yield put({ type: Type.REQUEST_CONCILIACAO_FAILURE, error });
+    } catch (e) {
+        yield call(() => errorDispatch(e));
     }
 };
 

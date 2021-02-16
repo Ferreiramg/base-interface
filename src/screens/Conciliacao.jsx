@@ -19,25 +19,27 @@ const Conciliacao = ({ title, actions }) => {
     const selectChange = (e) => setTipo(e.target.value);
 
     React.useEffect(() => {
-        if (!error && anexo.length > 0) {
+        if (anexo.length > 0) {
             const href = anexo;
             const a = linkRef.current;
             a.download = `${tipo.toLowerCase()}.xlsx`;
             a.href = href;
             a.click();
             a.href = '';
-            // eslint-disable-next-line
+            dispatch({ type: RESET_CONCILIACAO });
             actions.notification({ msg: "Conciliação concluida com sucesso, aguarde o download!" });
-        } else {
-            actions.notification({ msg: error, severity: 'danger' });
         }
-        dispatch({ type: RESET_CONCILIACAO });
-    }, [anexo, tipo, error, actions, dispatch]);
+        if (error !== null) {
+            // eslint-disable-next-line
+            actions.notification({ msg: error.statusText, severity: 'error' });
+        }
+    }, [anexo, tipo, error]);
 
     React.useEffect(() => {
-        if (menuItens.length === 0)
+        if (menuItens.length === 0) {
             // eslint-disable-next-line
             dispatch({ type: LIST_CONCILIACAO });
+        }
     }, [menuItens]);
 
     const onUpload = async (event) => {
@@ -52,9 +54,6 @@ const Conciliacao = ({ title, actions }) => {
 
     return (
         <>
-            {
-                // eslint-disable-next-line 
-            }
             <a ref={linkRef} />
             <Toolbar>
                 <Typography variant="h6" style={{ flex: '1 1 auto' }} component="div">

@@ -39,7 +39,7 @@ const IMaskNumber = (props) => {
 const CreateForm = ({ form, actions }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { error } = useSelector(({ Faturamento }) => Faturamento);
+    const error = useSelector(state => state.errorReducer.error);
     const { state, handleOnChange, handleOnSubmit, disable } = useForm(
         {
             id: { value: form.id, error: '' },
@@ -60,8 +60,7 @@ const CreateForm = ({ form, actions }) => {
         if (error === null) {
             actions.notification({ msg: "o registro foi atualizado com sucesso!" });
         }
-        else
-            actions.notification({ msg: "Falha ao atualizar registro!", severity: 'danger' });
+  
     };
 
     const hasError = (propert) => propert.error.length > 0;
@@ -92,7 +91,7 @@ const CreateForm = ({ form, actions }) => {
                 />
                 <br />
                 <TextField error={hasError(fundo)} value={fundo.value}
-                    onChange={handleOnChange} required
+                    onChange={handleOnChange}
                     name="fundo" helperText={fundo.error}
                     label="Fundo Faturamento"
                     InputProps={{

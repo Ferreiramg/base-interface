@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import { DataGrid } from '@material-ui/data-grid';
 
 const Home = ({ title, actions }) => {
-    
+
     return (
         <>
             <Toolbar>
@@ -17,7 +17,16 @@ const Home = ({ title, actions }) => {
             </Toolbar>
             <div style={{ display: 'flex', height: '84%' }}>
                 <div style={{ flexGrow: 1 }}>
-                    <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
+                    <DataGrid
+                        localeText={{
+                            footerRowSelected: (count) => `${title}`,
+                            footerTotalRows: 'Total:',
+                            footerPaginationRowsPerPage: 'Linhas por Pagina:',
+                        }}
+                        rows={rows}
+                        columns={columns}
+                        pageSize={5}
+                        checkboxSelection />
                 </div>
             </div>
 

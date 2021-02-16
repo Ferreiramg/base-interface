@@ -4,7 +4,6 @@ import { Toolbar, IconButton, Typography, LinearProgress } from '@material-ui/co
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 import EditDrawer from 'components/Drawer/EditDrawer';
-import { makeStyles } from "@material-ui/core/styles";
 
 import { useDispatch, useSelector } from "react-redux";
 import { FAT_LIST_ALL, FAT_SELECT_EDIT, FAT_DELETE } from 'utils/constants/actionTypes';
@@ -23,7 +22,8 @@ function CustomLoadingOverlay() {
 
 const ListFaturamento = ({ title, actions }) => {
     const dispatch = useDispatch();
-    const { faturamentos, selected, isLoading, error } = useSelector(({ Faturamento }) => Faturamento);
+    const { faturamentos, selected, isLoading } = useSelector(({ Faturamento }) => Faturamento);
+    const error = useSelector(state => state.errorReducer.error);
     const [_open, setOpen] = React.useState(false);
 
     React.useEffect(() => {
@@ -48,26 +48,24 @@ const ListFaturamento = ({ title, actions }) => {
         await dispatch({ type: FAT_SELECT_EDIT, payload: rows.filter(i => i.id === +id)[0] });
     };
 
-    const deleteSelected = async ({ id }) => {
+    async function deleteSelected({ id }) {
         if (window.confirm("Ação não pode ser desfeita, deseja Apagar o registro?")) {
             await dispatch({ type: FAT_DELETE, id });
             if (error === null)
                 actions.notification({ msg: "o registro foi apagado com sucesso!" });
-            else
-                actions.notification({ msg: "Falha ao apagar registro!", severity: 'danger' });
         }
-    };
+    }
 
     return (
         <>
             <Toolbar>
-                <Typography variant="h6" style={{ flex: '1 1 100%' }} component="div">
+                <Typography style={{ flex: '1 1 100%' }} variant="h6" component="div">
                     {title}
                 </Typography>
                 <IconButton disabled={selected?.id === undefined} onClick={e => setOpen(true)} aria-label="delete">
                     <EditIcon />
                 </IconButton>
-                <IconButton disabled={selected?.id === undefined} onClick={e => deleteSelected(selected)} aria-label="delete">
+                <IconButton disabled={selected?.id === undefined} onClick={e => deleteSelected(selected)} type="submit" aria-label="delete">
                     <DeleteForeverIcon />
                 </IconButton>
             </Toolbar>
@@ -80,6 +78,9 @@ const ListFaturamento = ({ title, actions }) => {
                         }}
                         loading={isLoading}
                         rows={rows} columns={columns} pageSize={25}
+                        localeText={{
+                            footerRowSelected: (count) => `ID Selecionado: ${selected.id}`,
+                        }}
                     />
                 </div>
             </div>
@@ -87,7 +88,6 @@ const ListFaturamento = ({ title, actions }) => {
         </>
     )
 };
-
 const columns = [
     { field: 'id', headerName: 'ID', width: 75 },
     { field: 'valor_total', headerName: 'Faturamento', width: 150 },
@@ -98,10 +98,4 @@ const columns = [
     { field: 'descricao', headerName: 'Descrição Faturamento', width: 320 },
 ];
 
-const useStyles = makeStyles(theme => ({
-    delete: {
-        color: theme.palette.error,
-    }
-
-}));
 export default ListFaturamento;
